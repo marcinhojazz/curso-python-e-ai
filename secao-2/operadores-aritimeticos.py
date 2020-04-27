@@ -42,8 +42,8 @@
 
 # RESTO
 
-n1 = 5
-n2 = 2
-resto = n1%n2
-print(resto)
-print(n1 % n2)
+# n1 = 5
+# n2 = 2
+# resto = n1%n2
+# print(resto)
+# print(n1 % n2)
