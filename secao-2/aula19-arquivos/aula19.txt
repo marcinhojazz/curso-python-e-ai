@@ -1,0 +1,12 @@
+
+Testando escrita de um texto.
+Meu nome é Márcio e sobreescreverei o arquivo
+e Mais uma linha nova para ver como fica
+
+Testando escrita de um texto.
+Meu nome é Márcio e sobreescreverei o arquivo
+e Mais uma linha nova para ver como fica
+
+Testando escrita de um texto.
+Meu nome é Márcio e sobreescreverei o arquivo
+e Mais uma linha nova para ver como fica
