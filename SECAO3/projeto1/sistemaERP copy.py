@@ -11,7 +11,7 @@ conexao = pymysql.connect(
 )
 
 autentico = False
-#função que permite usuario se cadastrar e logar no software
+
 def logarCadastrar():
     usuarioExistente = 0
     autenticado = False
@@ -23,41 +23,41 @@ def logarCadastrar():
 
         for linha in resultado:
             if nome == linha['nome'] and senha == linha['senha']:
-                if linha ['nivel'] == 1:
+                if linha['nivel'] == 1:
                     usuarioMaster = False
                 elif linha['nivel'] == 2:
                     usuarioMaster == True
                 autenticado = True
             else:
-                autenticado = False
+                autenticad = False
 
         if not autenticado:
-            print('email ou senha errado')
+            print('email ou senha incorretos')
 
     elif decisao == 2:
         print('Faça seu cadastro')
         nome = input('digite seu nome: ')
-        senha = input('sigite sua senha: ')
+        senha = input('digite sua senha: ')
 
         for linha in resultado:
             if nome == linha['nome'] and senha == linha['senha']:
                 usuarioExistente = 1
-        
+                
         if usuarioExistente == 1:
-            print('usuario ja cadastrado, tente um nome ou senha diferente')
+            print('usuario já cadastrad, tente novamente.')
         elif usuarioExistente == 0:
             try:
                 with conexao.cursor() as cursor:
-                    cursor.execute('insert into cadastros(nome, senha, nivel) values (%s, %s, %s)', (nome, senha, 1))
+                    cursor.execute('inser into cadastros(nome, senha, nivel) values(%s, %s, %s)', (nome, senha, 1))
                     conexao.commit()
-                print('usuario cadastrado com sucesso!')
+                print('usuario cadastrado com sucesso')
             except:
                 print('erro ao inserir os dados no banco')
 
     return autenticado, usuarioMaster
 
 while not autentico:
-    decisao = int(input('digite 1 para logar e 2 para cadastrar: '))
+    dedisao = int(input('digite 1 para logar ou 2 para registrar: '))
 
     try:
         with conexao.cursor() as cursor:
@@ -67,9 +67,4 @@ while not autentico:
     except:
         print('erro ao conectar no banco de dados')
 
-
     autentico, usuarioSupremo = logarCadastrar()
-
-
-if autentico == True:
-    print('autenticado')
