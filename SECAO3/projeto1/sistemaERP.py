@@ -106,6 +106,40 @@ def excluirProdutos():
     except:
         print('erro ao excluir o produto')
 
+def listarPedidos():
+    pedidos = []
+    decision = 0
+
+    while decision != 2:
+        pedidos.clear()
+
+        try:
+            with conexao.cursor() as cursor:
+                cursor.execute('select * from pedidos')
+                listaPedidos = cursor.fetchall()
+        except:
+            print('erro no banco de dados')
+        for i in listaPedidos:
+            pedidos.append(i)
+            
+        if len(pedidos) != 0:
+            for i in range(0, len(pedidos)):
+                print(pedidos[i])
+        else:
+            print('nenhum pedido foi feito!')
+
+        decision = int(input('digite 1 para dar um produto como entregue e 2 para voltar'))
+
+        if decision == 1:
+            idDeletar = int(input('digite o id do pedido entregue:\n'))
+
+            try:
+                with conexao.cursor() as cursor:
+                    cursor.execute('delete from pedidos where id = {}'.format(idDeletar))
+                    print('produto dado como entregue')
+            except:
+                print('erro ao dar o pedido como entregue')
+
 while not autentico:
     decisao = int(input('digite 1 para logar e 2 para cadastrar:\n'))
 
@@ -131,7 +165,7 @@ if autentico == True:
         
 
         while decisaoUsuario != 0: #enquanto decisaoUsuario for diferente de 0...
-            decisaoUsuario = int(input('digite 0 para sair, 1 parar cadastrar produtos, 2 para listar produtos cadastrados'))
+            decisaoUsuario = int(input('digite 0 para sair, 1 parar cadastrar produtos, 2 para listar produtos cadastrados, 3 para listar os pedidos:\n'))
             
             if decisaoUsuario == 1:
                 cadastrarProdutos()
@@ -142,5 +176,7 @@ if autentico == True:
 
                 if delete == 1:
                     excluirProdutos()
+            elif decisaoUsuario == 3:
+                listarPedidos()
 
 # FUNÇÃO PARA CADASTRAR PRODUTOS
