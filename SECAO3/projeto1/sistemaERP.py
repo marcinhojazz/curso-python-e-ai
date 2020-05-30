@@ -182,10 +182,48 @@ def gerarEstatistica():
                 elif somaValor > 0:
                     valores.append(somaValor + 1)
         
-        plt.plot(nomeProdutos, valores)
-        plt.ylabel('quantidade vendida em reais')
-        plt.xlabel('produtos')
-        plt.show()
+            plt.plot(nomeProdutos, valores)
+            plt.ylabel('quantidade vendida em reais')
+            plt.xlabel('produtos')
+            plt.show()
+        if decisao3 == 2:
+            grupoUnico = []
+            grupoUnico.clear()
+
+            try:
+                with conexao.cursor() as cursor:
+                    cursor.execute('select * from produtos')
+                    grupo = cursor.fetchall()
+            except:
+                print('erro na consulta')
+            
+            try:
+                with conexao.cursor() as cursor:
+                    cursor.execute('select * from estatisticaVendido')
+                    vendidoGrupo = cursor.fetchall()
+            
+            except:
+                print('erro na consulta')
+            
+            for i in grupo:
+                grupoUnico.append(i['nome'])
+            
+            grupoUnico = sorted(set(grupoUnico))
+            
+            qntFinal = []
+            qntFinal.clear()
+
+            for h in range(0, len(grupoUnico)):
+                qntUnitaria = 0
+                for i in vendidoGrupo:
+                    if grupoUnico[h] == i['nome']:
+                        qntUnitaria += 1
+                qntFinal.append(qntUnitaria)
+            
+            plt.plot(grupoUnico, qntFinal)
+            plt.ylabel('quantidade unitaria vendida')
+            plt.xlabel('produtos')
+            plt.show()
 
 while not autentico:
     decisao = int(input('digite 1 para logar e 2 para cadastrar:\n'))
@@ -220,7 +258,6 @@ if autentico == True:
                 listarProdutos()
 
                 delete = int(input('digite 1 para excluir um produto e 2 para sair\n'))
-
                 if delete == 1:
                     excluirProdutos()
             elif decisaoUsuario == 3:
