@@ -250,6 +250,44 @@ def gerarEstatistica():
             plt.xlabel('produtos')
             plt.show()
             
+        if decisao3 == 2:
+            grupoUnico = []
+            grupoUnico.clear()
+
+            try:
+                with conexao.cursor() as cursor:
+                    cursor.execute('select * from produtos')
+                    grupo = cursor.fetchall()
+            except:
+                print('erro na consulta')
+            
+            try:
+                with conexao.cursor() as cursor:
+                    cursor.execute('select * from estatisticaVendido')
+                    vendidoGrupo = cursor.fetchall()
+            
+            except:
+                print('erro na consulta')
+            
+            for i in grupo:
+                grupoUnico.append(i['grupo'])
+            
+            grupoUnico = sorted(set(grupoUnico))
+            
+            qntFinal = []
+            qntFinal.clear()
+
+            for h in range(0, len(grupoUnico)):
+                qntUnitaria = 0
+                for i in vendidoGrupo:
+                    if grupoUnico[h] == i['grupo']:
+                        qntUnitaria += 1
+                qntFinal.append(qntUnitaria)
+            
+            plt.plot(grupoUnico, qntFinal)
+            plt.ylabel('quantidade unitaria vendida')
+            plt.xlabel('produtos')
+            plt.show()
 
 while not autentico:
     decisao = int(input('digite 1 para logar e 2 para cadastrar:\n'))
