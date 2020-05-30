@@ -76,6 +76,7 @@ def cadastrarProdutos():
     except:
         print('erro ao inserir os produtos no banco de dados')
 
+
 def listarProdutos():
     produtos = []
 
@@ -95,6 +96,15 @@ def listarProdutos():
             print(produtos[i])
     else:
         print('nenhum produto cadastrado')
+
+def excluirProdutos():
+    idDeletar = int(input('Digite o id referente ao produto que deseja apagar:\n'))
+
+    try:
+        with conexao.cursor() as cursor:
+            cursor.execute('delete from produtos where id = {}'.format(idDeletar))
+    except:
+        print('erro ao excluir o produto')
 
 while not autentico:
     decisao = int(input('digite 1 para logar e 2 para cadastrar:\n'))
@@ -127,5 +137,10 @@ if autentico == True:
                 cadastrarProdutos()
             elif decisaoUsuario == 2:
                 listarProdutos()
+
+                delete = int(input('digite 1 para excluir um produto e 2 para sair\n'))
+
+                if delete == 1:
+                    excluirProdutos()
 
 # FUNÇÃO PARA CADASTRAR PRODUTOS
